@@ -11,7 +11,7 @@
 ### Чек-лист готовности к домашнему заданию
 
 1. Скачайте и установите **Terraform** версии >=1.12.0 . Приложите скриншот вывода команды ```terraform --version```.
-   ![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie01.png)
+   ![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie01.png)
 2. Скачайте на свой ПК этот git-репозиторий. Исходный код для выполнения задания расположен в директории **01/src**.
 3. Убедитесь, что в вашей ОС установлен docker.
 
@@ -28,18 +28,18 @@
 ### Задание 1
 
 1. Перейдите в каталог [**src**](https://github.com/netology-code/ter-homeworks/tree/main/01/src). Скачайте все необходимые зависимости, использованные в проекте.
-![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.png)
+![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.png)
    
 2. Изучите файл **.gitignore**. В каком terraform-файле, согласно этому .gitignore, допустимо сохранить личную, секретную информацию?(логины,пароли,ключи,токены итд)
-![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.2.png)
+![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.2.png)
    Для секретов используем personal.auto.tfvars, остальные Terraform-файлы (например, main.tf, variables.tf) не должны содержать секретные данные.
 3. Выполните код проекта. Найдите  в state-файле секретное содержимое созданного ресурса **random_password**, пришлите в качестве ответа конкретный ключ и его значение.
 
- ![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.3.png)
+ ![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.3.png)
 4. Раскомментируйте блок кода, примерно расположенный на строчках 29–42 файла **main.tf**.
 
 5. Выполните команду ```terraform validate```. Объясните, в чём заключаются намеренно допущенные ошибки. Исправьте их.
-![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.4.png)
+![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.4.png)
 
 Объяснение ошибок, допущенных изначально
 Неправильные имена ресурсов
@@ -50,27 +50,27 @@
 Изначально не был указан label docker_image "nginx" для идентификации, что вызывало ошибки при terraform validate.
 
 7. Выполните код. В качестве ответа приложите: исправленный фрагмент кода и вывод команды ```docker ps```.
-![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.5.png)
+![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.5.png)
   
 8. Замените имя docker-контейнера в блоке кода на ```hello_world```. Не перепутайте имя контейнера и имя образа. Мы всё ещё продолжаем использовать name = "nginx:latest". Выполните команду ```terraform apply -auto-approve```.
 Объясните своими словами, в чём может быть опасность применения ключа  ```-auto-approve```. Догадайтесь или нагуглите зачем может пригодиться данный ключ? В качестве ответа дополнительно приложите вывод команды ```docker ps```.
 
-![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.6.png)
+![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.6.png)
 Пояснение про -auto-approve:
 Этот ключ автоматически подтверждает все изменения Terraform, не спрашивая пользователя "Do you want to perform these actions?".
  Опасность: можно случайно создать или удалить ресурсы без проверки, особенно если у вас есть рабочие или критичные ресурсы.
  Польза: удобно для автоматизации и CI/CD, когда нужно применить Terraform в скриптах без интерактивного подтверждения.
 Уничтожьте созданные ресурсы с помощью **terraform**. Убедитесь, что все ресурсы удалены. Приложите содержимое файла **terraform.tfstate**.
- ![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.7.png)
+ ![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.7.png)
 9. Объясните, почему при этом не был удалён docker-образ **nginx:latest**. Ответ **ОБЯЗАТЕЛЬНО НАЙДИТЕ В ПРЕДОСТАВЛЕННОМ КОДЕ**, а затем **ОБЯЗАТЕЛЬНО ПОДКРЕПИТЕ** строчкой из документации [**terraform провайдера docker**](https://library.tf/providers/kreuzwerker/docker/latest).  (ищите в классификаторе resource docker_image )
-![Scren](https://github.com/mteplov/Docker5/blob/main/zadanie1.8.png)
+![Scren](https://github.com/mteplov/terraform-01/blob/main/zadanie1.8.png)
 ``` resource "docker_image" "nginx" {
   name         = "nginx:latest"
   keep_locally = true
-} ```
+ ```
 
-Параметр keep_locally = true явно говорит Terraform не удалять образ локально, даже если уничтожаются все контейнеры и Terraform-ресурсы.
-Поэтому после выполнения terraform destroy контейнер удаляется, а образ остаётся на машине
+**Параметр keep_locally = true явно говорит Terraform не удалять образ локально, даже если уничтожаются все контейнеры и Terraform-ресурсы.
+Поэтому после выполнения terraform destroy контейнер удаляется, а образ остаётся на машине**
 ------
 
 ## Дополнительное задание (со звёздочкой*)
